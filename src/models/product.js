@@ -38,14 +38,18 @@ async function updateProduct(productId, title, description , price, images, size
             description = $3, 
             price = $4, 
             images = $5, 
-            size = $6, 
+            size = $6,
             is_promotion = $7,
             filter = $8, 
             updated_at = $9 
-            WHERE id = $1;`,
+            WHERE id = $1
+            RETURNING *;`,
             [productId, title, description , price, images, size, promotion, filter, updated]
         )
-        
+
+        if (product.rowCount === 0) {return null}
+
+        return product.rows[0];
     } catch (error) {
         throw new Error("Não foi possível atualizar produto ", title)
     }
@@ -56,6 +60,7 @@ async function deleteProduct(productId) {
     try {
         await query(`DELETE FROM products WHERE id=$1;`, [productId])
         console.log("Produto excluido com sucesso!")
+        return result.rows[0];
     } catch (error) {
         throw new Error("Não foi possível excluir produto de id ", productId)
     }
