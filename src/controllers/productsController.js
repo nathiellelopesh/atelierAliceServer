@@ -29,7 +29,7 @@ const productsController = {
             const newProduct = await postNewProduct(title, description, price, images, size, filter, is_promotion);
             res.status(201).json(newProduct);
         } catch (error) {
-            res.status(500).json({ error: "Erro ao criar produto." });
+            res.status(500).json({ error: "Erro ao criar produto."});
         }
     },
     update: async (req, res) => {
