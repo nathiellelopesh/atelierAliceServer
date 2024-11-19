@@ -53,9 +53,10 @@ const productsController = {
             if (!product) {
                 return res.status(404).json({ error: "Produto não encontrado." });
             }
-            res.status(200).json(product);
+            res.status(200).json({ message: "Produto excluído com sucesso!", product });
         } catch (error) {
-            res.status(500),json({error: "Erro ao atualizar produto"})
+            console.error("Erro ao excluir produto:", error);
+            res.status(500).json({error: "Erro ao excluir produto"})
         }
     }
 }

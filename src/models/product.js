@@ -58,10 +58,11 @@ async function updateProduct(productId, title, description , price, images, size
 
 async function deleteProduct(productId) {
     try {
-        await query(`DELETE FROM products WHERE id=$1;`, [productId])
+        const result = await query(`DELETE FROM products WHERE id=$1 RETURNING *;`, [productId])
         console.log("Produto excluido com sucesso!")
         return result.rows[0];
     } catch (error) {
+        console.error("Erro ao tentar excluir produto:", error);
         throw new Error("Não foi possível excluir produto de id ", productId)
     }
 }
