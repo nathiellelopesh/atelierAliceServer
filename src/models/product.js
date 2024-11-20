@@ -1,5 +1,3 @@
-//
-//models/product.js
 const {query} = require("../database/pool")
 
 async function getAllProducts() {
