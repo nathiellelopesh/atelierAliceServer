@@ -5,28 +5,29 @@ async function getAllProducts() {
 
     return result.rows
 }
-
-async function postNewProduct(title, description, price, images, size, filter) {
+//
+async function postNewProduct(title, description, price, images, size, promotion) {
     try {
         await query(`
             INSERT INTO products
-            (title, description, price, images, size, filter)
+            (title, description, price, images, size, is_promotion)
             VALUES ($1, $2, $3, $4, $5, $6);`,
-            [title, description, price, images, size, filter]
+            [title, description, price, images, size, promotion]
         )
         console.log("Produto criado: ", title)
     } catch (error) {
-        throw new Error("Não foi possível criar novo produto")
+        console.error("Erro ao tentar criar produto:", error);
+        throw new Error("Não foi possível criar novo produto", error)
     }
 }
-
+//
 async function getProductById(productId) {
     const result = await query(`SELECT * FROM products WHERE id = $1;`, [productId]);
     return result.rows[0];
 }
 
 
-async function updateProduct(productId, title, description , price, images, size, promotion, filter) {
+async function updateProduct(productId, title, description , price, images, size, promotion, sold) {
     try {
         const updated = new Date();
 
@@ -38,11 +39,11 @@ async function updateProduct(productId, title, description , price, images, size
             images = $5, 
             size = $6,
             is_promotion = $7,
-            filter = $8, 
+            is_sold = $8, 
             updated_at = $9 
             WHERE id = $1
             RETURNING *;`,
-            [productId, title, description , price, images, size, promotion, filter, updated]
+            [productId, title, description , price, images, size, promotion, sold, updated]
         )
 
         if (product.rowCount === 0) {return null}

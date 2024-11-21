@@ -24,12 +24,13 @@ const productsController = {
         }
     },
     create: async (req,res) => {
-        const { title, description, price, images, size, filter, is_promotion } = req.body;
+        const { title, description, price, images, size, is_promotion } = req.body;
         try {
-            const newProduct = await postNewProduct(title, description, price, images, size, filter, is_promotion);
+            const newProduct = await postNewProduct(title, description, price, images, size, is_promotion);
             res.status(201).json(newProduct);
         } catch (error) {
-            res.status(500).json({ error: "Erro ao criar produto."});
+            console.log("Erro ao criar produto controller.", error)
+            res.status(500).json({ error: "Erro ao criar produto controller."});
         }
     },
     update: async (req, res) => {
