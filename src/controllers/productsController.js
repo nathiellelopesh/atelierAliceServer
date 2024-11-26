@@ -36,9 +36,9 @@ const productsController = {
     update: async (req, res) => {
         // não pode ser productId e sim somente "id" para reconhecer q é o id da url
         const { id } = req.params;
-        const { title, description, price, images, size, filter, is_promotion } = req.body;
+        const { title, description, price, images, size, is_promotion, is_sold } = req.body;
         try {
-            const product = await updateProduct(id, title, description , price, images, size, is_promotion, filter)
+            const product = await updateProduct(id, title, description, price, images, size, is_promotion, is_sold)
             if (!product) {
                 return res.status(404).json({ error: "Produto não encontrado." });
             }
