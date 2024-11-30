@@ -1,8 +1,10 @@
+//
 const {query} = require("../database/pool")
 
 async function getAllContacts() {
     try {
         const result = await query(`SELECT * FROM contact;`);
+
         console.log("Database result:", result);
         return result.rows;
     } catch (error) {
@@ -47,3 +49,5 @@ async function deleteContact(id) {
 }
 
 module.exports = { getAllContacts, postNewContact, getContactById, deleteContact }
+
+//
