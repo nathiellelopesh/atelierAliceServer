@@ -49,5 +49,4 @@ async function deleteContact(id) {
 }
 
 module.exports = { getAllContacts, postNewContact, getContactById, deleteContact }
-
 //

@@ -15,7 +15,7 @@ async function createTableProducts() {
             updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         );
     `)
-    process.exit()
+    console.log("Tabela 'products' criada ou já existe.");
 }
 
 async function createTableContact() {
@@ -30,21 +30,21 @@ async function createTableContact() {
             delivery_date VARCHAR(100)
         );
     `)
-    process.exit()
+    console.log("Tabela 'contact' criada ou já existe.");
 }
 
-async function createTableUsers() {
-    await query(`
-        CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
-            username VARCHAR(50) UNIQUE NOT NULL,
-            password VARCHAR(255) NOT NULL
-        );
-    `)
-    process.exit()
+async function migrateDatabase() {
+    try {
+        await createTableProducts();
+        await createTableContact();
+        
+        console.log("Migração do banco de dados concluída com sucesso!");
+    } catch (error) {
+        console.error("Erro durante a migração:", error);
+        process.exit(1);
+    } finally {
+        process.exit();
+    }
 }
 
-
-createTableProducts()
-createTableContact()
-
+migrateDatabase();
